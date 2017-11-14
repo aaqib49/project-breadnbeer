@@ -1,8 +1,10 @@
 # project
 
 ## Team Name
-* Name1 LastName1
-* Name2 LastName2
+breadnbeer
+* Aaqib Parvez Mohammed - [@aaqib49](https://github.com/aaqib49)
+* Chetan Sidnal - [ChetanSidnal](https://github.com/ChetanSidnal)
+* Koi Jon - [jonkoi](https://github.com/jonkoi)
 
 ## Howto run
 Just install gradle and run:
