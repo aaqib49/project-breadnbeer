@@ -6,8 +6,8 @@ import java.util.Vector;
 public class Start {
     public static void main(String[] args) {
     	List<String> agents = new Vector<>();
-    	agents.add("tester:maas.BookBuyerAgent");
-
+    	agents.add("customer:maas.CustomerAgent");
+    	agents.add("bakery:maas.BakeryAgent");
     	List<String> cmd = new Vector<>();
     	cmd.add("-agents");
     	StringBuilder sb = new StringBuilder();
