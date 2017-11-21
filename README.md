@@ -4,8 +4,8 @@
 
 [![Build Status](https://www.travis-ci.org/HBRS-MAAS/project-breadnbeer.svg?branch=master)](https://www.travis-ci.org/HBRS-MAAS/project-breadnbeer)
 
-## Team Name
-breadnbeer
+## BreadnBeer
+
 * Aaqib Parvez Mohammed - [@aaqib49](https://github.com/aaqib49)
 * Chetan Sidnal - [ChetanSidnal](https://github.com/ChetanSidnal)
 * Koi Jon - [jonkoi](https://github.com/jonkoi)
