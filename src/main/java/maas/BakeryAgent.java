@@ -28,6 +28,7 @@ public class BakeryAgent extends Agent {
 
 // behaviours 
 
+	// need to be cyclic behaviour
 	private class ReceiveOrder extends OneShotBehaviour{
 		public void action() {
 			//ToDo handle
