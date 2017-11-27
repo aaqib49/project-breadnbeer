@@ -12,14 +12,13 @@ public class Start {
     	List<String> agents = new Vector<>();
     	Parser p = new Parser();
     	
-//Create customer agents
     	for (Object c: p.jsonCustomers){
     		JSONObject customerObj = (JSONObject) c;
     		String name = (String) customerObj.get("guid") + ":maas.CustomerAgent";
     		String modName = name.replace(' ', '-');
     		agents.add(modName);
     	}
-//Create bakery agents    	
+    	
     	for (Object c: p.jsonBakeries){
     		JSONObject bakeryObj = (JSONObject) c;
     		String name = (String) bakeryObj.get("guid") + ":maas.BakeryAgent";
