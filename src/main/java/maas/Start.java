@@ -13,7 +13,7 @@ public class Start {
     	Parser p = new Parser();
     	System.out.println("hello its in");
     	
-    	agents.add("BakeryManger:maas.KneadingAgent");  // to start the bakery manager agent
+    	agents.add("BakeryManger:maas.BakeryMangerAgent");  // to start the bakery manager agent
     	
 //Create bakery agents    	
     	for (Object c: p.jsonBakeries){

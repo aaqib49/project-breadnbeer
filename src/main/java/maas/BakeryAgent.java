@@ -3,12 +3,18 @@ package maas;
 import java.util.ArrayList;
 
 import jade.content.lang.Codec;
+import jade.content.lang.sl.SLCodec;
+import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.domain.FIPANames;
+import jade.domain.JADEAgentManagement.JADEManagementOntology;
+import jade.domain.JADEAgentManagement.ShutdownPlatform;
 import jade.lang.acl.MessageTemplate;
+//import maas.BookBuyerAgent.shutdown;
 
 public class BakeryAgent extends Agent {
 	
@@ -50,15 +56,49 @@ public class BakeryAgent extends Agent {
 							msg_req.setContent(order);
 							send(msg);
 							step=1;
-							break;
 							
 					}
+					else {
+		                System.out.println("No message Recieved from Customer");
+		                doDelete();
+		                
+		            }
+					break;
 			
 			case 1: // recive the reply from the bakerymanger if yes then reply yes to customer else no!
+				System.out.println("------message Recieved and i am in step 2-----\n");
+				ACLMessage Mngr_reply = receive(mt);
+				if (Mngr_reply!=null){
+					 System.out.println( " - " +
+		                       myAgent.getLocalName() + " <- " +
+		                       Mngr_reply.getContent() );
+		                       
+						ACLMessage replyToCustomer = Mngr_reply.createReply();
+						if (Mngr_reply.getContent()=="YES"){
+							Mngr_reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+						}
+						else {
+							Mngr_reply.setPerformative(ACLMessage.CANCEL);
+						}
+						//ACLMessage msg_req = new ACLMessage(ACLMessage.INFORM);
+						//msg_req.addReceiver(new AID("BakeryManger",AID.ISLOCALNAME));
+						//msg_req.setContent(order);
+						send(Mngr_reply);
+						step=2;
+						
+				}
+				else {
+	                System.out.println("No message Recieved from Bakery Manager");
+	                doDelete();
+	                
+	            }
 					break;
 			case 2:
 					//ACLMessage rly = msg.createReply();
+				System.out.println(" order has been accepted\n");
 					bakeryOrderList.add(order_info);
+					doDelete();
+					//addBehaviour(new shutdown());
 					break;
 			}
 /*			
@@ -97,6 +137,26 @@ public class BakeryAgent extends Agent {
 			//msg.setContent("Today it’s raining");
 			send(msg);
 		
+		}
+	}
+	
+	private class shutdown extends OneShotBehaviour{
+		public void action() {
+			ACLMessage shutdownMessage = new ACLMessage(ACLMessage.REQUEST);
+			Codec codec = new SLCodec();
+			myAgent.getContentManager().registerLanguage(codec);
+			myAgent.getContentManager().registerOntology(JADEManagementOntology.getInstance());
+			shutdownMessage.addReceiver(myAgent.getAMS());
+			shutdownMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
+			shutdownMessage.setOntology(JADEManagementOntology.getInstance().getName());
+			try {
+			    myAgent.getContentManager().fillContent(shutdownMessage,new Action(myAgent.getAID(), new ShutdownPlatform()));
+			    myAgent.send(shutdownMessage);
+			}
+			catch (Exception e) {
+			    //LOGGER.error(e);
+			}
+
 		}
 	}
 
