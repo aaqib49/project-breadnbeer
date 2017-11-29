@@ -29,8 +29,11 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import org.json.simple.*;
-
-
+//import java.util.Vector;
+//import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Map;
 //import maas.BookBuyerAgent.shutdown;
 public class CustomerAgent extends Agent {
 	
@@ -41,15 +44,21 @@ public class CustomerAgent extends Agent {
 	private JSONArray globalOrders = p.jsonOrders;
 	private JSONArray sortedLocalOrders = new JSONArray();
 	private JSONObject curOrder;
-	
+//	private Vector <int> value =new Vector<>();
+	private Map <String ,Integer > order = new HashMap<String , Integer>();
 	
 	protected void setup(){
 		System.out.println("Customer-Agent "+getAID().getName()+"is ready");
 		sortedLocalOrders = p.GetSortedLocalOrders(getAID().getLocalName());
-		
+		//###----------------------- orders must be sorted by date of delivery.
 //		System.out.println(getAID().getLocalName());
 		System.out.println(sortedLocalOrders);
-		
+		//String test[] =sortedLocalOrders
+	
+		//String[] elementNames = JSONObject.getNames(objects);		
+				
+				
+				
 		addBehaviour(new PlaceOrder());
 	}
 
@@ -57,18 +66,19 @@ public class CustomerAgent extends Agent {
 		
 		public void action() {
 			
-			
+			// pass the string to the bakeryAgent wait for the confirmation.
 			
 			//ToDo handle
-//			ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-//			cfp.addReceiver(bakeryAgent);
-//			cfp.setContent(String.valueOf(OrderCreate()));
-//			cfp.setConversationId("order");
-//			cfp.setReplyWith("cfp"+System.currentTimeMillis());
-//			send(cfp);
-//			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order-reply"),
-//					MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
-//			addBehaviour(new AcknowledgeOrder());
+			System.out.println("placing customer order---------\n");
+			ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
+			cfp.addReceiver(new AID("bakeryAgent",AID.ISLOCALNAME));
+			cfp.setContent(sortedLocalOrders.toString());
+			cfp.setConversationId("order_proposal");
+			cfp.setReplyWith("cfp"+System.currentTimeMillis());
+			send(cfp);
+			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order-reply"),
+					MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
+			addBehaviour(new AcknowledgeOrder());
 			
 		}
 	}
