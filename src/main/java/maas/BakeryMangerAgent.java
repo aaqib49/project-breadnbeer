@@ -20,7 +20,7 @@ public class BakeryMangerAgent extends Agent {
 		System.out.println("Hello! BakeryManger-agent "+getAID().getName()+" is ready.");
 		
 		List<String> agents = new Vector<>();
-		agents.add("Kneading:maas.KneadingAgent");
+		
 		
     	//agents.add("bakery:maas.BakeryAgent");
     	List<String> cmd = new Vector<>();
