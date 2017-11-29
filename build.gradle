@@ -11,6 +11,9 @@ repositories {
     mavenCentral()
     maven {
         url 'http://jade.tilab.com/maven/'
+        url 'http://docs.oracle.com/javase/6/docs/api/'
+        url 'http://code.google.com/p/json-simple/'
+        url 'https://github.com/douglascrockford/JSON-java'
     }
 }
 
