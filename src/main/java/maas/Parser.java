@@ -34,8 +34,8 @@ public class Parser {
 		List<String> product_names = new ArrayList<String>();
 
 		try{
-			//Parsing
-			jsonObject = (JSONObject) parser.parse(new FileReader("/home/khoi/MAAS/project-breadnbeer/src/main/java/maas/test.json"));
+			jsonObject = (JSONObject) parser.parse(new FileReader("/home/chetan/Dropbox/Multi_Agent/project-breadnbeer/src/main/config/test.json"));
+			//jsonObject = (JSONObject) parser.parse(new FileReader("/home/khoi/MAAS/project-breadnbeer/src/main/java/maas/test.json"));
 			jsonBakeries = (JSONArray) jsonObject.get("bakeries");
 			jsonCustomers = (JSONArray) jsonObject.get("customers");
 			jsonOrders = (JSONArray) jsonObject.get("orders");
