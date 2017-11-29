@@ -1,7 +1,6 @@
 package maas;
 
 import java.util.*;
-
 import maas.Parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +26,8 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-
+import jade.domain.AMSService;
+import jade.domain.FIPAAgentManagement.*;
 import org.json.simple.*;
 //import java.util.Vector;
 //import java.util.Queue;
@@ -71,12 +71,13 @@ public class CustomerAgent extends Agent {
 			//ToDo handle
 			System.out.println("placing customer order---------\n");
 			ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-			cfp.addReceiver(new AID("bakeryAgent",AID.ISLOCALNAME));
 			cfp.setContent(sortedLocalOrders.toString());
 			cfp.setConversationId("order_proposal");
+			cfp.addReceiver(new AID("bakery-001",AID.ISLOCALNAME));
+			
 			cfp.setReplyWith("cfp"+System.currentTimeMillis());
 			send(cfp);
-			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order-reply"),
+			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order_proposal-reply"),
 					MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
 			addBehaviour(new AcknowledgeOrder());
 			
