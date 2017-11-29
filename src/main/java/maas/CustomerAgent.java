@@ -1,12 +1,26 @@
 package maas;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import maas.Parser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -14,69 +28,65 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+import org.json.simple.*;
+
 
 //import maas.BookBuyerAgent.shutdown;
 public class CustomerAgent extends Agent {
 	
-	private AID bakeryAgent = new AID("bakery", AID.ISLOCALNAME);
+//	private AID bakeryAgent = new AID("bakery", AID.ISLOCALNAME);
 	private MessageTemplate mt;
+	private Parser p = new Parser();
+	private JSONArray bakeries = p.jsonBakeries;
+	private JSONArray globalOrders = p.jsonOrders;
+	private JSONArray sortedLocalOrders = new JSONArray();
+	private JSONObject curOrder;
 	
-	private ArrayList<String> OrderCreate(){
-		
-		
-		ArrayList<String> orderList = new ArrayList<String>();
-		orderList.add(getAID().getName());
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the order date <dd.hh>:");
-		orderList.add(scanner.nextLine());
-		System.out.println("Enter the order date <dd.hh>:");
-		orderList.add(scanner.nextLine());
-		System.out.println("Enter the vector over the range of products:");
-		orderList.add(scanner.nextLine());
-		scanner.close();
-		
-		return orderList;
-	}
 	
 	protected void setup(){
 		System.out.println("Customer-Agent "+getAID().getName()+"is ready");
-		addBehaviour(new PlaceandWaitOrder());
-		// addBehaviour(new AcknowledgeOrder());
+		sortedLocalOrders = p.GetSortedLocalOrders(getAID().getLocalName());
+		
+//		System.out.println(getAID().getLocalName());
+		System.out.println(sortedLocalOrders);
+		
+		addBehaviour(new PlaceOrder());
 	}
-	
-	
-	// behaviours 
 
-	private class PlaceandWaitOrder extends OneShotBehaviour{
+	private class PlaceOrder extends OneShotBehaviour{
 		
 		public void action() {
+			
+			
+			
 			//ToDo handle
-			ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-			cfp.addReceiver(bakeryAgent);
-			cfp.setContent(String.valueOf(OrderCreate()));
-			cfp.setConversationId("order");
-			cfp.setReplyWith("cfp"+System.currentTimeMillis());
-			send(cfp);
-			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order-reply"),
-					MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
-			addBehaviour(new AcknowledgeOrder());
+//			ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
+//			cfp.addReceiver(bakeryAgent);
+//			cfp.setContent(String.valueOf(OrderCreate()));
+//			cfp.setConversationId("order");
+//			cfp.setReplyWith("cfp"+System.currentTimeMillis());
+//			send(cfp);
+//			mt = MessageTemplate.and(MessageTemplate.MatchConversationId("order-reply"),
+//					MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
+//			addBehaviour(new AcknowledgeOrder());
 			
 		}
 	}
 	
-	private class AcknowledgeOrder extends OneShotBehaviour{
+	private class AcknowledgeOrder extends CyclicBehaviour{
 		public void action() {
 			//ToDo handle
-			ACLMessage reply = myAgent.receive(mt);
-            
-            if (reply.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                //Wait for 
-            	System.out.println("succeeded");
-                doDelete();
+			ACLMessage reply = receive(mt);
+            if (reply!=null){
+	            if (reply.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+	            	System.out.println("succeeded");
+	                doDelete();
+	            } else {
+	                System.out.println("failed");
+	                doDelete();
+	            }
             } else {
-                // Retry
-                System.out.println("failed");
-                doDelete();
+            	block();
             }
            
 		}
