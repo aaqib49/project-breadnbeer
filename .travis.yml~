@@ -12,9 +12,9 @@ addons:
      branches:
      - ".*"
     token:
-      secure: ${pass}
+      secure: "7894f7dafc4ae084fc084cd3ba9ee647666067ba"
     github_token:
-      secure: ${breadnbeer}
+      secure:
 script:
   - "gradle sonarqube"
 
