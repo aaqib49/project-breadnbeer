@@ -1,0 +1,3 @@
+sonar.projectKey=project-breadnbeer
+sonar.sourceEncoding=UTF-8
+sonar.sources=src/main
