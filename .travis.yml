@@ -1,16 +1,16 @@
 language: java
 jdk:
-    - openjdk8
+- openjdk8
+sudo: false
+install: true
 group: stable
 dist: trusty
 os: linux
-sudo: false
-install: true
 addons:
   sonarcloud:
-    organization: "chetansidnal-github"
-     branches:
-     - ".*"
+    organization: chetansidnal-github
+    branches:
+    - ".*"
     token:
       secure: ${pass}
     github_token:
