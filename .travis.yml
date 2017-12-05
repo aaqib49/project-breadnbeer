@@ -17,4 +17,3 @@ addons:
       secure: ${breadnbeer}
 script:
   - "gradle sonarqube"
-
