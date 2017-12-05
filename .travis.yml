@@ -8,13 +8,13 @@ sudo: false
 install: true
 addons:
   sonarcloud:
-    organization: "breadnbeer"
+    organization: "chetansidnal-github"
      branches:
      - ".*"
     token:
       secure: ${pass}
     github_token:
-      secure: ${breadnbeer}
+      secure: ${github-breadnbeer}
 script:
   - "gradle sonarqube"
 
