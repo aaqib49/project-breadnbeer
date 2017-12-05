@@ -1,6 +1,19 @@
 language: java
 jdk:
-    - openjdk7
+- openjdk8
+sudo: false
+install: true
 group: stable
 dist: trusty
 os: linux
+addons:
+  sonarcloud:
+    organization: chetansidnal-github
+    branches:
+    - ".*"
+    token:
+      secure: ${pass}
+    github_token:
+      secure: ${github-breadnbeer}
+script:
+  - "gradle sonarqube"
