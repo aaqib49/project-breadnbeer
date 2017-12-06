@@ -6,7 +6,6 @@
 
 ## BreadnBeer
 
-* Aaqib Parvez Mohammed - [@aaqib49](https://github.com/aaqib49)
 * Chetan Sidnal - [ChetanSidnal](https://github.com/ChetanSidnal)
 * Koi Jon - [jonkoi](https://github.com/jonkoi)
 
